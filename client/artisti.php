@@ -12,18 +12,7 @@ include("../server/config/connessione.php");
 </head>
 <body class="bg-light">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="home.php">Backstage Manager</a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="artisti.php">Artisti</a>
-                <a class="nav-link" href="eventi.php">Eventi</a>
-                <a class="nav-link" href="inserisci_artista.php">Inserisci artista</a>
-                <a class="nav-link" href="inserisci_evento.php">Inserisci evento</a>
-                <a class="nav-link text-danger" href="index.php">Logout</a>
-            </div>
-        </div>
-    </nav>
+    <?php include("components/navbar.php"); ?>
 
     <div class="container mt-5">
         <div class="bg-white p-4 rounded shadow-sm">

@@ -1,3 +1,7 @@
+<?php
+include("../server/config/connessione.php");
+?>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -8,18 +12,7 @@
 </head>
 <body class="bg-light">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="home.php">Backstage Manager</a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="artisti.php">Artisti</a>
-                <a class="nav-link" href="eventi.php">Eventi</a>
-                <a class="nav-link" href="inserisci_artista.php">Inserisci artista</a>
-                <a class="nav-link" href="inserisci_evento.php">Inserisci evento</a>
-                <a class="nav-link text-danger" href="index.php">Logout</a>
-            </div>
-        </div>
-    </nav>
+    <?php include("components/navbar.php"); ?>
 
     <div class="container mt-5">
         <div class="bg-white p-4 rounded shadow-sm">
@@ -27,30 +20,68 @@
 
             <form method="POST" action="../server/api/artisti.php">
                 <div class="row g-3">
+
                     <div class="col-md-6">
+                        <label class="form-label">Nome</label>
                         <input type="text" class="form-control" name="nome" placeholder="Nome" required>
                     </div>
+
                     <div class="col-md-6">
+                        <label class="form-label">Cognome</label>
                         <input type="text" class="form-control" name="cognome" placeholder="Cognome" required>
                     </div>
+
                     <div class="col-md-6">
+                        <label class="form-label">Nome d'arte</label>
                         <input type="text" class="form-control" name="nome_arte" placeholder="Nome d'arte" required>
                     </div>
+
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="genere" placeholder="Genere musicale">
+                        <label class="form-label">Genere musicale</label>
+                        <input type="text" class="form-control" name="genere_musicale" placeholder="Genere musicale">
                     </div>
+
                     <div class="col-md-6">
+                        <label class="form-label">Email</label>
                         <input type="email" class="form-control" name="email" placeholder="Email">
                     </div>
+
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="telefono" placeholder="Telefono" pattern="[0-9]+">
+                        <label class="form-label">Telefono</label>
+                        <input type="text" class="form-control" name="telefono" placeholder="Telefono">
                     </div>
+
                     <div class="col-md-6">
+                        <label class="form-label">Città</label>
                         <input type="text" class="form-control" name="citta" placeholder="Città">
                     </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Etichetta</label>
+                        <select name="id_etichetta" class="form-select">
+                            <option value="">Nessuna etichetta</option>
+                            <?php
+                            $query = "SELECT id_etichetta, nome_etichetta FROM etichette ORDER BY nome_etichetta";
+                            $result = $connessione->query($query);
+
+                            if ($result) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='{$row['id_etichetta']}'>{$row['nome_etichetta']}</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Note</label>
+                        <textarea class="form-control" name="note" placeholder="Note" rows="4"></textarea>
+                    </div>
+
                     <div class="col-12">
                         <button type="submit" class="btn btn-dark">Salva artista</button>
                     </div>
+
                 </div>
             </form>
         </div>
