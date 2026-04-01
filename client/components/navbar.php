@@ -14,49 +14,17 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="artisti.php">Artisti</a>
+                    <a class="nav-link" href="inserisci.php">Inserisci</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="eventi.php">Eventi</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="brani.php">Brani</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="inserisci_artista.php">+ Artista</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="inserisci_evento.php">+ Evento</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="inserisci_brano.php">+ Brano</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="scalette.php">Scalette</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="inserisci_etichetta.php">+ Etichetta</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="inserisci_scaletta.php">+ Scaletta</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="aggiungi_brani_scaletta.php">Scaletta Brani</a>
+                    <a class="nav-link" href="visualizza.php">Visualizza</a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link text-danger" href="index.php">Logout</a>
                 </li>
-
+                
             </ul>
         </div>
     </div>
