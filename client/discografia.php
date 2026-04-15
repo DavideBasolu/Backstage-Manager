@@ -221,10 +221,19 @@ function badgeTipo($tipo) {
                                     <?php } ?>
                                 </div>
 
-                                <div class="d-flex align-items-start">
-                                    <button class="btn btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#tracklist<?php echo $row["id_album"]; ?>">
+                                <div class="d-flex align-items-start gap-2">
+
+                                    <button class="btn btn-outline-dark" type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#tracklist<?php echo $row["id_album"]; ?>">
                                         Visualizza tracklist
                                     </button>
+
+                                    <a href="aggiungi_brani_album.php?id_album=<?php echo $row['id_album']; ?>"
+                                    class="btn btn-outline-primary">
+                                        Modifica progetto
+                                    </a>
+
                                 </div>
                             </div>
 
@@ -266,7 +275,7 @@ function badgeTipo($tipo) {
                                         <table class="table table-striped table-bordered align-middle mb-0">
                                             <thead class="table-dark">
                                                 <tr>
-                                                    <th>Disco</th>
+                                                    
                                                     <th>Traccia</th>
                                                     <th>Titolo</th>
                                                     <th>Feat</th>
@@ -279,7 +288,7 @@ function badgeTipo($tipo) {
                                             <tbody>
                                                 <?php while ($traccia = $result_tracklist->fetch_assoc()) { ?>
                                                     <tr>
-                                                        <td><?php echo !empty($traccia["disco"]) ? $traccia["disco"] : 1; ?></td>
+                                                        
                                                         <td><?php echo !empty($traccia["numero_traccia"]) ? $traccia["numero_traccia"] : "-"; ?></td>
                                                         <td><?php echo htmlspecialchars($traccia["titolo"]); ?></td>
                                                         <td><?php echo !empty($traccia["feat"]) ? htmlspecialchars($traccia["feat"]) : "-"; ?></td>

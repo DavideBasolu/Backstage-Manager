@@ -1,0 +1,65 @@
+# **cose da aggiungere:**
+
+
+
+* pulsante modifica nella pagina visualizza artisti
+
+
+
+* non va aggiungi brani a scaletta
+
+
+
+* poter cercare un brano e non solo l album
+
+
+
+* cambiare il nome della pagina aggiungi brani ad album
+
+
+
+* aggiungere le foto
+
+
+
+* api Spotify
+
+
+
+
+
+# **cosa dire sprint:**
+
+
+
+1. cosa da implementare:....
+
+2. adesso si possono aggiungere gli album non solo i brani disordinati come in precedenza, le informazioni dei brani rimangono comunque indipendenti
+è stato anche valutato il caso delle deluxe, ovvero lo stessso brano è presente in due album, questo ha portato a dover usare una tabella di collegamento e non una semplice chiave esterna.
+
+3. adesso quando inseriamo un nuovo evento possiamo associare la scaletta che si intende portare a quell'evento
+
+4. la gestione della scaletta adesso è molto più user-fiendly, si aggiungono tutti i brani che si vogliono aggiungere e dopo si ordina semplicemente trascinando la canzone nella posizione desiderata, questo metodo è stato riutilizzato anche per poter riordinare gli album
+
+
+5. la pagina discografia ora mostra tutti gli album con all interno i brani, è tutto più ordinato, in ogni album è presente il pulsante modifica che porta alla pagina di gestione del progetto, caricando già il progetto scelto.
+
+
+6. sempre dalla pagina discografia e aprendo la tracklist, a lato del brano è presente il pulsante modifica, si può quindi modificare un singolo brano dalla pagina di visualizzazione.
+
+7. dalla pagina discografia possiamo anche creare un nuovo progetto.
+
+8. sono ora presenti i filtri nella pagina discografia, i filtri sono completi ma funzionano solo per l album, non per i brani, non si può cercare un brano.
+
+9. la navbar 1ora è stata alleggerita, sono presenti solo 4 pulsanti i 2 principali inserisci e visualizza, che portano a una pagina in cui sono presenti le funzioni del gestionale.
+
+10. tutte le pagine di visualizzazione sono pensate per poter apportare modifiche e aggiungere direttamente da li, questo semplifica l esperienza dell utente, le pagine inserisci sono comunque completamente accessibili dal pulsante inserisci
+
+
+
+&#x20;
+
+
+
+
+

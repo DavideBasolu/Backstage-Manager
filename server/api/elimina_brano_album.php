@@ -19,6 +19,6 @@ if (!$connessione->query($query)) {
     exit;
 }
 
-header("Location: ../../client/aggiungi_brani_album.php?id_album=$id_album&success=1");
+header("Location: ../../client/aggiungi_brani_album.php?id_album=$id_album&brano_rimosso=1");
 exit;
 ?>

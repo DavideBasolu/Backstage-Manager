@@ -9,75 +9,66 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $id_album = isset($_POST["id_album"]) ? (int)$_POST["id_album"] : 0;
 $brani_selezionati = isset($_POST["brani_selezionati"]) ? $_POST["brani_selezionati"] : [];
 $numeri_traccia = isset($_POST["numero_traccia"]) ? $_POST["numero_traccia"] : [];
-$dischi = isset($_POST["disco"]) ? $_POST["disco"] : [];
 $note_brani = isset($_POST["note"]) ? $_POST["note"] : [];
 
 if ($id_album <= 0) {
-    header("Location: ../../client/aggiungi_brani_album.php?errore=generico");
+    echo "Album non valido.";
     exit;
 }
 
-if (empty($brani_selezionati)) {
+if (empty($brani_selezionati) || !is_array($brani_selezionati)) {
     header("Location: ../../client/aggiungi_brani_album.php?id_album=$id_album&errore=nessun_brano");
     exit;
 }
 
-$combinazioni_nuove = [];
-
 foreach ($brani_selezionati as $id_brano_raw) {
     $id_brano = (int)$id_brano_raw;
-
     $numero_traccia = isset($numeri_traccia[$id_brano]) ? (int)$numeri_traccia[$id_brano] : 0;
-    $disco = isset($dischi[$id_brano]) ? (int)$dischi[$id_brano] : 1;
 
-    if ($numero_traccia <= 0 || $disco <= 0) {
+    if ($id_brano <= 0 || $numero_traccia <= 0) {
         header("Location: ../../client/aggiungi_brani_album.php?id_album=$id_album&errore=campi_mancanti");
         exit;
     }
+}
 
-    $chiave = $disco . "-" . $numero_traccia;
+$tracce_usate = [];
 
-    if (isset($combinazioni_nuove[$chiave])) {
+foreach ($brani_selezionati as $id_brano_raw) {
+    $id_brano = (int)$id_brano_raw;
+    $numero_traccia = (int)$numeri_traccia[$id_brano];
+
+    if (in_array($numero_traccia, $tracce_usate)) {
         header("Location: ../../client/aggiungi_brani_album.php?id_album=$id_album&errore=conflitto_inserimento");
         exit;
     }
 
-    $combinazioni_nuove[$chiave] = true;
-}
-
-foreach ($brani_selezionati as $id_brano_raw) {
-    $id_brano = (int)$id_brano_raw;
-
-    $query_controllo_brano = "
-        SELECT 1
-        FROM album_brani
-        WHERE id_album = $id_album AND id_brano = $id_brano
-        LIMIT 1
-    ";
-    $result_controllo_brano = $connessione->query($query_controllo_brano);
-
-    if ($result_controllo_brano && $result_controllo_brano->num_rows > 0) {
-        header("Location: ../../client/aggiungi_brani_album.php?id_album=$id_album&errore=duplicato_brano");
-        exit;
-    }
+    $tracce_usate[] = $numero_traccia;
 }
 
 foreach ($brani_selezionati as $id_brano_raw) {
     $id_brano = (int)$id_brano_raw;
     $numero_traccia = (int)$numeri_traccia[$id_brano];
-    $disco = (int)$dischi[$id_brano];
 
-    $query_controllo_posizione = "
-        SELECT 1
+    $query_brano_presente = "
+        SELECT id_brano
         FROM album_brani
-        WHERE id_album = $id_album
-          AND disco = $disco
-          AND numero_traccia = $numero_traccia
-        LIMIT 1
+        WHERE id_album = $id_album AND id_brano = $id_brano
     ";
-    $result_controllo_posizione = $connessione->query($query_controllo_posizione);
+    $result_brano_presente = $connessione->query($query_brano_presente);
 
-    if ($result_controllo_posizione && $result_controllo_posizione->num_rows > 0) {
+    if ($result_brano_presente && $result_brano_presente->num_rows > 0) {
+        header("Location: ../../client/aggiungi_brani_album.php?id_album=$id_album&errore=duplicato_brano");
+        exit;
+    }
+
+    $query_traccia_occupata = "
+        SELECT id_brano
+        FROM album_brani
+        WHERE id_album = $id_album AND numero_traccia = $numero_traccia
+    ";
+    $result_traccia_occupata = $connessione->query($query_traccia_occupata);
+
+    if ($result_traccia_occupata && $result_traccia_occupata->num_rows > 0) {
         header("Location: ../../client/aggiungi_brani_album.php?id_album=$id_album&errore=posizione_occupata");
         exit;
     }
@@ -86,23 +77,21 @@ foreach ($brani_selezionati as $id_brano_raw) {
 foreach ($brani_selezionati as $id_brano_raw) {
     $id_brano = (int)$id_brano_raw;
     $numero_traccia = (int)$numeri_traccia[$id_brano];
-    $disco = (int)$dischi[$id_brano];
-    $note = isset($note_brani[$id_brano]) ? trim($note_brani[$id_brano]) : "";
-
-    $note = mysqli_real_escape_string($connessione, $note);
-    $note_sql = ($note !== "") ? "'$note'" : "NULL";
+    $nota = isset($note_brani[$id_brano]) && trim($note_brani[$id_brano]) !== ""
+        ? "'" . $connessione->real_escape_string(trim($note_brani[$id_brano])) . "'"
+        : "NULL";
 
     $query_insert = "
-        INSERT INTO album_brani (id_album, id_brano, numero_traccia, disco, note)
-        VALUES ($id_album, $id_brano, $numero_traccia, $disco, $note_sql)
+        INSERT INTO album_brani (id_album, id_brano, numero_traccia, note)
+        VALUES ($id_album, $id_brano, $numero_traccia, $nota)
     ";
 
     if (!$connessione->query($query_insert)) {
-        echo "Errore durante l'inserimento: " . $connessione->error;
+        header("Location: ../../client/aggiungi_brani_album.php?id_album=$id_album&errore=errore_inserimento");
         exit;
     }
 }
 
-header("Location: ../../client/aggiungi_brani_album.php?id_album=$id_album&success=1");
+header("Location: ../../client/aggiungi_brani_album.php?id_album=$id_album&brani_aggiunti=1");
 exit;
 ?>
